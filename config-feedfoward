@@ -7,9 +7,9 @@ reset_on_extinction   = True
 
 [DefaultGenome]
 # node activation options
-activation_default      = relu
+activation_default      = sigmoid
 activation_mutate_rate  = 0.20
-activation_options      = sigmoid gauss tanh
+activation_options      = sigmoid gauss
 #abs clamped cube exp gauss hat identity inv log relu sigmoid sin softplus square tanh
 
 # node aggregation options
@@ -71,7 +71,7 @@ weight_replace_rate     = 0.2
 
 
 [DefaultSpeciesSet]
-compatibility_threshold = 1.9
+compatibility_threshold = 1.8
 
 [DefaultStagnation]
 species_fitness_func = max

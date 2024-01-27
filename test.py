@@ -12,9 +12,8 @@ env = retro.make(game="SuperMarioWorld-Snes", state='YoshiIsland2')
 checkpoint_folder = 'neat_checkpoints'
 
 # Fonction de l'évaluation des génomes
-def eval_genomes(genomes, config, total_reward=0):
-    global net
-    global checkpoint_folder
+def eval_genomes(genomes, config):
+    
     imgarray = []
     
     for genome_id, genome in genomes:
@@ -32,12 +31,21 @@ def eval_genomes(genomes, config, total_reward=0):
             observation = cv2.resize(observation, (inx, iny))
             observation = cv2.cvtColor(observation, cv2.COLOR_BGR2GRAY)
             observation = np.reshape(observation, (inx, iny))
-            imgarray.extend([pixel_value / 255.0 for row in observation for pixel_value in row])
+            for x in observation:
+                for y in x:
+                    imgarray.append(y)
+            imgarray = [pixel_value / 255.0 for pixel_value in imgarray]
             
             nnOutput = net.activate(imgarray)
-            observation, reward, terminated, truncated, info = env.step(nnOutput)
             
-            xpos, carry, score, win, halfway = info['xpos'], info['carry'], info['score'], info['done'], info['halfway']
+            observation, reward, terminated, truncated, info = env.step(nnOutput)
+
+            xpos = info['xpos']
+            carry = info['carry']
+            score = info['score']
+            win = info['done']
+            halfway = info['halfway']
+            frame+=1
             frame += 1
             done = terminated
 
@@ -52,6 +60,9 @@ def eval_genomes(genomes, config, total_reward=0):
 
             if carry == 1:
                 fitness_current += 1
+                if stopped == True:
+                    counter += 1
+            
 
             if score > score_max:
                 fitness_current += 100
