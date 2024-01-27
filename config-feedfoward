@@ -6,7 +6,7 @@ pop_size              = 30
 reset_on_extinction   = True
 
 [DefaultGenome]
-# node activation options
+# node activation options use with 259 checkpoint
 activation_default      = sigmoid
 activation_mutate_rate  = 0.20
 activation_options      = sigmoid gauss
